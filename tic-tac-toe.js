@@ -9,7 +9,7 @@ let winningConditions = [
     [2,4,6], //diagonal 2
     [0,3,6], //column 1 
     [1,4,7], //column 2
-    [2,5,8]//column 3 
+    [2,5,8] //column 3 
 
 ];
 let gameOver = false;
@@ -22,18 +22,19 @@ window.onload = function(){
     let player = "X";
 
     for (let i =0; i <gameCells.length; i++){
+
         //applies the css square to every board div
         gameCells[i].classList.add("square");
 
-        //Add an X or O whenever a square is clicked
+        //add an X or O whenever a square is clicked
         gameCells[i].addEventListener("click", function()
         {
-            //If the cell is not empty, nothing happens
-            if (cellState[i] != ""){
+            //if the cell is not empty or the game is over, nothing happens
+            if (cellState[i] != "" || gameOver){
                 return;
             }
 
-
+            
             this.innerText = player;
             this.classList.add(player);
             cellState[i] = player;
@@ -54,7 +55,8 @@ window.onload = function(){
                 }
             }
 
-            if (player == "X"){
+            if (player == "X")
+            {
                 player = "O";
             }
             else{
@@ -62,7 +64,7 @@ window.onload = function(){
             }
         })
 
-        //fuction to allow style changes when mouse hovers over a cell 
+        //fuctions to allow style changes when mouse hovers over a cell 
         gameCells[i].addEventListener("mouseover", function()
         {
             this.classList.add("hover");
@@ -73,15 +75,25 @@ window.onload = function(){
             this.classList.remove("hover");
         });
 
-        
-
     }
 
+    //restart the game
+    newGame = document.querySelector(".btn")
+    newGame.addEventListener("click", function()
+    {
+        //resets everything
+        player = "X";
+        cellState = ["","","","","","","","",""];
+        gameOver = false;
+        status.textContent = "Move your mouse over a square and click to play an X or an O.";
+        status.classList.remove("you-won");
 
-
-
-    
-
+        for (let i =0; i <gameCells.length; i++)
+        {
+            gameCells[i].innerText = "";
+            gameCells[i].classList.remove("X", "O");
+        }
+    })
 
 }
 
